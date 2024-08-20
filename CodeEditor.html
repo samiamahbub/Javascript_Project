@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+        body {
+            width: 100%;
+            display: flex;
+            height: 100vh;
+            background-color: yellow;
+        }
+        .leftPart {
+            flex-basis: 50%;
+            background-color: black;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        .content {
+            flex-basis: 33%;
+            background-color: blueviolet;
+        }
+        .rightPart {
+            flex-basis: 50%;
+            height: 100%;
+            background-color: purple;
+        }
+        .leftPart .content label {
+            background-color: black;
+            display: block;
+            color: white;
+            padding: 10px 0px;
+        }
+        .leftPart .content textarea {
+            width: calc(100% - 20px);
+            outline: none;
+            background-color: black;
+            color: white;
+            padding: 10px;
+            border: none;
+            height: calc(82% - 20px);
+        }
+        .rightPart label {
+            display: block;
+            padding: 10px;
+            background-color: blue;
+            color: white;
+        }
+        .rightPart iframe {
+            display: block;
+            width: 100%;
+            height: 80%;
+            box-sizing: border-box;
+            border: 1px solid red;
+        }
+    </style>
+</head>
+<body>
+    <div class="leftPart">
+        <div class="content">
+            <label>HTML</label>
+            <textarea id="html"></textarea>
+        </div>
+        <div class="content">
+            <label>CSS</label>
+            <textarea id="css"></textarea>
+        </div>
+        <div class="content">
+            <label>JAVASCRIPT</label>
+            <textarea id="js"></textarea>
+        </div>
+    </div>
+    <div class="rightPart">
+        <label>Output</label>
+        <iframe id="output"></iframe>
+    </div>
+    <script>
+        let output = document.querySelector("#output");
+        let htmlInput = document.querySelector("#html");
+        let cssInput = document.querySelector("#css");
+        let jsInput = document.querySelector("#js");
+
+        function updateOutput() {
+            let htmlCode = htmlInput.value;
+            let cssCode = `<style>${cssInput.value}</style>`;
+            let jsCode = `<script>${jsInput.value}<\/script>`;
+            
+            output.contentDocument.body.innerHTML = htmlCode + cssCode + jsCode;
+            output.contentWindow.eval(jsInput.value);
+        }
+
+        htmlInput.addEventListener("keyup", updateOutput);
+        cssInput.addEventListener("keyup", updateOutput);
+        jsInput.addEventListener("keyup", updateOutput);
+    </script>
+</body>
+</html>
